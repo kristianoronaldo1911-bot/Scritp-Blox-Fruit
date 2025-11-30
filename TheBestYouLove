@@ -1,0 +1,158 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Kris Hub by Grok",
+   LoadingTitle = "Cargando Kris Hub...",
+   LoadingSubtitle = "Hecho por Grok xAI (2025)",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "KrisHub",
+      FileName = "KrisConfig"
+   },
+   Discord = {
+      Enabled = false
+   },
+   KeySystem = false
+})
+
+local MainTab = Window:CreateTab("📱 Hubs Principales", 4483362458)
+local FarmTab = Window:CreateTab("🌟 Farm & Combat")
+local TeleTab = Window:CreateTab("🗺️ Teleports")
+local PlayerTab = Window:CreateTab("👤 Player Mods")
+
+MainTab:CreateSection("Mejores Hubs (Auto Farm, Raids, V4, etc.)")
+
+MainTab:CreateButton({
+   Name = "🔴 Redz Hub (Beta - Oficial)",
+   Callback = function()
+      local Settings = {
+         JoinTeam = "Pirates", -- Cambia a "Marines"
+         Translator = true
+      }
+      getgenv().BETA_VERSION = true
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))(Settings)
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "🐯 HoHo Hub (Top Farm)",
+   Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI'))()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "💎 QuantumOnyx Hub (Oni/Aimbot)",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "⚡ Tsuo Hub (Travel Farm)",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Tsuo7/TsuoHub/main/Tsuoscripts"))()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "🍪 Cookie Hub (Smooth)",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Jadelly261/BloxFruits/refs/heads/main/Cookie", true))()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "🚀 Xeter Hub (Full)",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/TlDinhKhoi/Xeter/refs/heads/main/Main.lua"))()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "🌊 Speed Hub X",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed Hub X.lua"))()
+   end,
+})
+
+-- Más en Discord o actualizaciones
+
+FarmTab:CreateSection("Funciones Básicas (Extras)")
+
+local AutoFarmToggle = FarmTab:CreateToggle({
+   Name = "Auto Farm Level (Básico)",
+   CurrentValue = false,
+   Callback = function(Value)
+      _G.AutoFarm = Value
+      spawn(function()
+         while _G.AutoFarm do
+            pcall(function()
+               -- Código básico auto farm (mejora con hubs arriba)
+               local args = { [1] = "StartQuest", [2] = "DemoSeaQuest", [3] = "1" }
+               game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end)
+            wait(1)
+         end
+      end)
+   end,
+})
+
+PlayerTab:CreateSection("Mods Jugador")
+
+local WalkSpeedSlider = PlayerTab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {16, 200},
+   Increment = 1,
+   CurrentValue = 16,
+   Callback = function(Value)
+      if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+      end
+   end,
+})
+
+local JumpPowerSlider = PlayerTab:CreateSlider({
+   Name = "Jump Power",
+   Range = {50, 200},
+   Increment = 1,
+   CurrentValue = 50,
+   Callback = function(Value)
+      if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+         game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+      end
+   end,
+})
+
+local InfJumpToggle = PlayerTab:CreateToggle({
+   Name = "Infinite Jump",
+   CurrentValue = false,
+   Callback = function(Value)
+      getgenv().InfJump = Value
+      if Value then
+         game:GetService("UserInputService").JumpRequest:Connect(function()
+            game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+         end)
+      end
+   end,
+})
+
+TeleTab:CreateSection("Teleports Básicos")
+
+local TPInput = TeleTab:CreateInput({
+   Name = "Teleport a Pos (X,Y,Z)",
+   PlaceholderText = "0, 0, 0",
+   Callback = function(Text)
+      local pos = Text:split(",")
+      if #pos == 3 then
+         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(tonumber(pos[1]), tonumber(pos[2]), tonumber(pos[3]))
+      end
+   end,
+})
+
+Rayfield:Notify({
+   Title = "¡Kris Hub Cargado!",
+   Content = "Disfruta farming con Grok 🚀",
+   Duration = 5,
+   Image = 4483362458
+})
